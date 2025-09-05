@@ -1,4 +1,5 @@
 # Projeto API Cadastro
-## Aulas do Prof. Welber
+## Ânima Educação
 
 **UC:** Gestão e Qualidade de Software
+**Professor:** Welber
