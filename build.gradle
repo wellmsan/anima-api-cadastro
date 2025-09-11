@@ -28,3 +28,17 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// Task para construir o JAR otimizado para Docker
+tasks.named('bootJar') {
+    archiveFileName = 'app.jar'
+    layered {
+        enabled = true
+    }
+}
+
+// Garante que o build limpe antes de construir
+tasks.named('build') {
+    dependsOn 'clean'
+    dependsOn 'bootJar'
+}
