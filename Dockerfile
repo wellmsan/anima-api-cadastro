@@ -1,5 +1,5 @@
 # Etapa 1: Build com Gradle
-FROM gradle:8.5-jdk21 AS builder
+FROM gradle:8.5-jdk17 AS builder
 LABEL authors="welbermacedo"
 WORKDIR /app
 COPY . .
