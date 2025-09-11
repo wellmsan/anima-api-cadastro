@@ -38,7 +38,7 @@ tasks.named('bootJar') {
 }
 
 // Garante que o build limpe antes de construir
-tasks.named('build') {
-    dependsOn 'clean'
-    dependsOn 'bootJar'
-}
+//tasks.named('build') {
+//    dependsOn 'clean'
+//    dependsOn 'bootJar'
+//}
