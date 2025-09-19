@@ -18,6 +18,9 @@ public class PetController {
 
     @PostMapping
     public Pet createPet(@RequestBody Pet pet) {
+        if (pet.getNome() == null || pet.getNome().isEmpty()) {
+            throw new IllegalArgumentException("Nome do pet é obrigatório");
+        }
         return petRepository.save(pet);
     }
 
@@ -27,14 +30,14 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pet> getPetById(@PathVariable Long id) {
+    public ResponseEntity<Pet> getPetById(@PathVariable("id") Long id) {
         Optional<Pet> pet = petRepository.findById(id);
         return pet.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePet(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePet(@PathVariable("id") Long id) {
         Optional<Pet> pet = petRepository.findById(id);
         if (pet.isPresent()) {
             petRepository.deleteById(id);
