@@ -35,21 +35,21 @@ src/
 │ │ ├── controller/
 │ │ │ └── PetController.java
 │ │ └── Application.java
-│ └── resources/
-│ └── application.properties
-└── test/
-├── java/
-│ └── app/qualidade/apicadastro/
-│ ├── model/
-│ │ └── PetTest.java
-│ ├── repository/
-│ │ └── PetRepositoryTest.java
-│ ├── controller/
-│ │ └── PetControllerTest.java
-│ └── integration/
-│ └── PetIntegrationTest.java
-└── resources/
-└── application-test.properties
+│ ├── resources/
+│ │ └── application.properties
+├── test/
+│ ├── java/
+│ │ └── app/qualidade/apicadastro/
+│ │ ├── model/
+│ │ │ └── PetTest.java
+│ │ ├── repository/
+│ │ │ └── PetRepositoryTest.java
+│ │ ├── controller/
+│ │ │ └── PetControllerTest.java
+│ │ └── integration/
+│ │ └── PetIntegrationTest.java
+│ ├── resources/
+│ │ └── application-test.properties
 ```
 
 ## 🚀 Como Executar
