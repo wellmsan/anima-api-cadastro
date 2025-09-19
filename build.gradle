@@ -21,12 +21,22 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // Banco de dados
     runtimeOnly 'com.h2database:h2'
+
+    // Testes
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showExceptions = true
+        exceptionFormat = "full"
+    }
 }
 
 // Task para construir o JAR otimizado para Docker
@@ -37,8 +47,11 @@ tasks.named('bootJar') {
     }
 }
 
-// Garante que o build limpe antes de construir
-//tasks.named('build') {
-//    dependsOn 'clean'
-//    dependsOn 'bootJar'
-//}
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-parameters']
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    jvmArgs += ['-parameters']
+}
