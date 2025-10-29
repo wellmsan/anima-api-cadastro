@@ -1,17 +1,23 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.5'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'app.qualidade'
-version = '0.0.1-SNAPSHOT'
-description = 'api-cadastro'
+version = '1.0.0'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+tasks.withType(Test) {
+    // garante que os testes usem o toolchain do projeto
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(17)
+    })
 }
 
 repositories {
@@ -20,38 +26,38 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-
-    // Banco de dados
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
 
-    // Testes
+    // Testes BDD - VERSÕES COMPATÍVEIS
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    
+    testImplementation 'io.cucumber:cucumber-java:7.15.0'
+    testImplementation 'io.cucumber:cucumber-spring:7.15.0'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.15.0'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+}
+
+tasks.register('cucumber', Test) {
+    dependsOn assemble, testClasses
+    description = 'Execute os testes BDD Cucumber'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    systemProperties = [
+            'cucumber.plugin': 'pretty, html:build/reports/cucumber/report.html',
+            'cucumber.glue': 'app.qualidade.apicadastro',
+            'cucumber.features': 'src/test/resources/features'
+    ]
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
     testLogging {
         events "passed", "skipped", "failed"
-        showExceptions = true
-        exceptionFormat = "full"
+        showStandardStreams = true
     }
-}
-
-// Task para construir o JAR otimizado para Docker
-tasks.named('bootJar') {
-    archiveFileName = 'app.jar'
-    layered {
-        enabled = true
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ['-parameters']
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(Test) {
-    jvmArgs += ['-parameters']
 }
