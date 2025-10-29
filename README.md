@@ -27,28 +27,40 @@ Uma API RESTful desenvolvida em Spring Boot para gerenciamento de cadastro de pe
 src/
 ├── main/
 │ ├── java/
-│ │ └── app/qualidade/apicadastro/
-│ │ ├── model/
-│ │ │ └── Pet.java
-│ │ ├── repository/
-│ │ │ └── PetRepository.java
-│ │ ├── controller/
-│ │ │ └── PetController.java
-│ │ └── Application.java
+│ │ └── app/
+│ │     └── qualidade/
+│ │         └── apicadastro/
+│ │             ├── model/
+│ │             │   └── Pet.java
+│ │             ├── repository/
+│ │             │   └── PetRepository.java
+│ │             ├── controller/
+│ │             │   └── PetController.java
+│ │             └── Application.java
 │ ├── resources/
-│ │ └── application.properties
+│ │     └── application.properties
 ├── test/
 │ ├── java/
-│ │ └── app/qualidade/apicadastro/
-│ │ ├── model/
-│ │ │ └── PetTest.java
-│ │ ├── repository/
-│ │ │ └── PetRepositoryTest.java
-│ │ ├── controller/
-│ │ │ └── PetControllerTest.java
-│ │ └── integration/
-│ │ └── PetIntegrationTest.java
+│ │ └── app/
+│ │     └── qualidade/
+│ │         └── apicadastro/
+│ │             ├── bdd/
+│ │             │    └── runner/
+│ │             │       └── CucumberTest.java
+│ │             ├── model/
+│ │             │   └── PetTest.java
+│ │             ├── repository/
+│ │             │   └── PetRepositoryTest.java
+│ │             ├── controller/
+│ │             │   └── PetControllerTest.java
+│ │             └── integration/
+│ │                 └── PetIntegrationTest.java
 │ ├── resources/
+│ │ ├── features/
+│ │ │   │── cadastro_pet.features
+│ │ │   │── consulta_pet.features
+│ │ │   └── exclusao_pet.features
+│ │ │── schema.sql
 │ │ └── application-test.properties
 ```
 
@@ -77,17 +89,20 @@ A aplicação estará disponível em: http://localhost:8080
 ### Executando os Testes
 
 ```
-# Executar todos os testes
+# Executar todos os testes (incluindo BDD)
 ./gradlew test
 
-# Executar apenas testes unitários
-./gradlew test --tests "*Test"
+# Executar apenas testes BDD Cucumber
+./gradlew cucumber
 
-# Executar apenas testes de integração
-./gradlew test --tests "*IntegrationTest"
+# Executar com relatório detalhado
+./gradlew cucumber --info
 
-# Executar testes com relatório detalhado
-./gradlew test --info
+# Limpar e executar
+./gradlew clean test
+
+# Executar com cobertura de código
+./gradlew test jacocoTestReport
 ```
 
 ## 📡 Endpoints da API
