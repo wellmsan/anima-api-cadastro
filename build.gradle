@@ -45,7 +45,10 @@ tasks.register('cucumber', Test) {
     description = 'Execute os testes BDD Cucumber'
     group = 'verification'
 
-    useJUnitPlatform()
+    useJUnitPlatform {
+        // executa somente o engine cucumber — evita rodar unit tests aqui
+        includeEngines 'cucumber'
+    }
 
     systemProperties = [
             'cucumber.plugin': 'pretty, html:build/reports/cucumber/report.html',
