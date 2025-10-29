@@ -34,17 +34,29 @@ jobs:
       - name: Mostrar versão do Java
         run: java -version
 
-      - name: Rodar testes (Gradle)
+      - name: Rodar testes unitários
         run: ./gradlew clean test --no-daemon --info --stacktrace
-        # Se preferir falhar cedo em caso de teste com falha, mantenha essa task.
-        # A saída de testes aparecerá nos logs do job.
 
-      - name: Build do artefato (sem testes, já rodados acima)
+      - name: Rodar BDD (Cucumber) — task cucumber
+        run: ./gradlew cucumber --no-daemon --info --stacktrace
+
+      - name: Build do artefato (assemble)
         run: ./gradlew assemble --no-daemon --info
-        # use 'assemble' para produzir jars sem rodar testes novamente.
 
       - name: Listar artefatos build
-        run: ls -lh build/libs
+        run: ls -lh build/libs || true
+
+      - name: Upload relatórios JUnit (XML) como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-test-results
+          path: build/test-results/test
+
+      - name: Upload relatório HTML do Cucumber
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report
+          path: build/reports/cucumber/report.html
 
   deploy:
     needs: build
